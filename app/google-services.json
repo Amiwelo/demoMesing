@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1049189898785",
+    "firebase_url": "https://demomesing.firebaseio.com",
+    "project_id": "demomesing",
+    "storage_bucket": "demomesing.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1049189898785:android:5efc4f229f8dbfe6c16160",
+        "android_client_info": {
+          "package_name": "com.example.demomesing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1049189898785-5s0pm8f65ontr748k13232lb31ascj5i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.demomesing",
+            "certificate_hash": "5c9e0d02c1cff69297f1040f9922e55f86097be2"
+          }
+        },
+        {
+          "client_id": "1049189898785-3h75ku82jk5upfcbefj5oagll8qhd86c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsuxmgrDW7C5AAF23_Zrw8xspiAzgNAxI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1049189898785-3h75ku82jk5upfcbefj5oagll8qhd86c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
