@@ -1,12 +1,9 @@
 package com.example.demomesing.features.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.demomesing.R
 import com.example.demomesing.base.BaseActivity
@@ -21,12 +18,8 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import java.lang.Exception
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
@@ -37,7 +30,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn_sign_google -> signIn()
-            R.id.btn_ingresar -> ingresarSimple()
+            R.id.btn_ingresar -> signInSimple()
         }
     }
 
@@ -55,54 +48,29 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         googleSignIn = GoogleSignIn.getClient(this, gso)
 
         auth = FirebaseAuth.getInstance()
-        viewModel = ViewModelProviders.of(this, LoginViewModelFactory(Injection.getLogin()))
-            .get(LoginViewModel::class.java)
+        init()
+
         btn_sign_google.setOnClickListener(this)
         btn_ingresar.setOnClickListener(this)
-
     }
 
-    override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-        updateUI(currentUser)
-    }
-
-    private fun updateUI(user: FirebaseUser?) {
-        if (user != null) {
-            Toast.makeText(this, "Ingreso", Toast.LENGTH_SHORT).show()
-            //btn_sign_google.visibility = View.GONE
-        } else {
-            btn_sign_google.visibility = View.VISIBLE
-        }
+    private fun init() {
+        viewModel = ViewModelProviders.of(this, LoginViewModelFactory(Injection.getLogin(), auth))
+            .get(LoginViewModel::class.java)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                val account = task.getResult(ApiException::class.java)
-                authWithGoogle(account)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                updateUI(null)
+            val account = task.getResult(ApiException::class.java)
+            if (viewModel.signInWithGoogle(account) == -1) {
+                val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                //intent.putExtra("objUsuario", user.)
+                startActivity(intent)
             }
-        }
-    }
-
-    private fun authWithGoogle(account: GoogleSignInAccount?) {
-        Log.i("account: ", "${account?.id}")
-
-        val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
-        auth.signInWithCredential(credential).addOnCompleteListener { task: Task<AuthResult> ->
-            if (task.isSuccessful) {
-                Log.i(TAG, "SUCCESS")
-                val user = auth.currentUser
-                updateUI(user)
-            } else {
-                Log.w(TAG, "signInWithCredential:failure", task.exception)
-            }
+        } else {
+            toast("codigo invalido RC")
         }
     }
 
@@ -114,11 +82,15 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         )
     }
 
-    private fun ingresarSimple(){
-        viewModel.signIn(et_user.text.toString(), et_password.text.toString(), auth)
-        val objuser = Usuario("", et_user.text.toString(), et_password.text.toString())
-        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-        startActivity(intent)
+    private fun signInSimple() {
+        if (viewModel.signIn(et_user.text.toString(), et_password.text.toString())) {
+            val objUser = Usuario("", et_user.text.toString(), et_password.text.toString())
+            val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+            intent.putExtra("objUsuario", objUser)
+            startActivity(intent)
+        } else {
+            toast("usuario invalido")
+        }
     }
 
     companion object {
