@@ -23,6 +23,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
+    companion object {
+        private const val TAG = "informacion"
+        private const val RC_SIGN_IN = 9001
+    }
+
     override fun getLayout(): Int {
         return R.layout.activity_main
     }
@@ -49,7 +54,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
         auth = FirebaseAuth.getInstance()
         init()
-
         btn_sign_google.setOnClickListener(this)
         btn_ingresar.setOnClickListener(this)
     }
@@ -64,14 +68,38 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             val account = task.getResult(ApiException::class.java)
-            if (viewModel.signInWithGoogle(account) == -1) {
+
+            if (viewModel.signInWithGoogle(account) == 0) {
                 val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                //intent.putExtra("objUsuario", user.)
+                //intent.putExtra("objUsuario", )
                 startActivity(intent)
+            } else {
+                toast("usuario gmail invalido")
             }
         } else {
-            toast("codigo invalido RC")
+            toast("RC_SIGN_IN invalido")
         }
+    }
+
+    private fun fieldsEmpty(): Boolean {
+        var validate = true
+
+        if (et_user.text.isEmpty()) {
+            et_user.error = "Requerid."
+            validate = false
+            toast("ingrese usuario")
+        } else {
+            et_user.error = null
+        }
+
+        if (et_password.text.isEmpty()) {
+            et_password.error = "Requerid."
+            validate = false
+            toast("ingrese contraseña")
+        } else {
+            et_password.error = null
+        }
+        return validate
     }
 
     private fun signIn() {
@@ -83,18 +111,18 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun signInSimple() {
-        if (viewModel.signIn(et_user.text.toString(), et_password.text.toString())) {
+        Log.i(TAG, "signInSimple")
+        if(!fieldsEmpty()) return
+
+        if (viewModel.signIn(et_user.text.toString(), et_password.text.toString()) == 0) {
             val objUser = Usuario("", et_user.text.toString(), et_password.text.toString())
             val intent = Intent(this@LoginActivity, HomeActivity::class.java)
             intent.putExtra("objUsuario", objUser)
             startActivity(intent)
-        } else {
+        }else {
             toast("usuario invalido")
         }
     }
 
-    companion object {
-        private const val TAG = "GoogleActivity"
-        private const val RC_SIGN_IN = 9001
-    }
+
 }
