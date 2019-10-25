@@ -70,6 +70,7 @@
                 app:cardElevation="6dp">
 
                 <LinearLayout
+                    android:id="@+id/btn_profile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -81,7 +82,7 @@
                         android:src="@drawable/balloon"/>
                     <TextView
                         android:layout_marginTop="20dp"
-                        android:text="Modelo"
+                        android:text="Profile"
                         android:textSize="18dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>

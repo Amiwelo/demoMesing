@@ -16,8 +16,7 @@ import java.lang.Exception
 
 class LoginRepository : LoginDataSource {
     private lateinit var parameter: MutableMap<String, String>
-    lateinit var callServices: CallServices
-    lateinit var call: Call<JsonObject>
+    private lateinit var callServices: CallServices
 
     override fun signIn(
         email: String,
@@ -30,23 +29,6 @@ class LoginRepository : LoginDataSource {
         parameter["PwdUsu"]= pwd
 
         callServices = ApiConfig.instanceClient()
-        /*call = callServices.loggin(parameter)
-        Log.i("Info", "SignInServiceRepostiry")
-        call.enqueue(object : Callback<JsonObject> {
-            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                param.onError(t.printStackTrace())
-            }
-
-            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                if (response.isSuccessful){
-                    param.onSucces(response.body())
-                    Log.i("Response", "${response.body()}")
-                }else{
-                    param.onError("Error")
-                }
-            }
-
-        })*/
         CoroutineScope(Dispatchers.IO).launch{
             try {
                 val response = callServices.loggin(parameter)

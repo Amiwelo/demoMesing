@@ -4,18 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.demomesing.R
 import com.example.demomesing.base.BaseActivity
 import com.example.demomesing.di.Injection
 import com.example.demomesing.features.home.HomeActivity
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FirebaseAuth
+import com.example.demomesing.model.User
 import kotlinx.android.synthetic.main.activity_main.*
-import com.example.demomesing.model.Usuario as Usuario
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
 
@@ -31,6 +27,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     private lateinit var viewModel: LoginViewModel
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,8 +38,22 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         viewModel = ViewModelProviders.of(
             this,
             LoginViewModelFactory(Injection.getLogin())).get(LoginViewModel::class.java)
+        viewModel.responseBody.observe(this, response)
+    }
+    private val response = Observer<User>{
+        if(it.message=="OK"){
+            val user = viewModel.responseBody.value!!
+            sendHome(user)
+        } else {
+            toast("Error usuario fallo")
+        }
     }
 
+    private fun sendHome(user: User) {
+        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+        intent.putExtra("objUser", user)
+        startActivity(intent)
+    }
 
 
     private fun fieldsEmpty(): Boolean {
