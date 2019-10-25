@@ -1,9 +1,12 @@
 package com.example.demomesing.features.login
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.firebase.auth.FirebaseAuth
+import com.example.demomesing.data.ObjectOperation
+
 
 interface LoginDataSource {
-    fun signIn(email: String, pwd: String, auth: FirebaseAuth)
-    fun signInWithGoogle(account: GoogleSignInAccount?, auth: FirebaseAuth)
+    fun signIn(
+        email: String,
+        pwd: String,
+        param: ObjectOperation
+    )
 }

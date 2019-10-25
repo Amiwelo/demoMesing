@@ -1,26 +1,25 @@
 package com.example.demomesing.features.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.firebase.auth.FirebaseAuth
+import com.example.demomesing.data.ObjectOperation
 
-class LoginViewModel(private val dataSource: LoginDataSource,private val auth: FirebaseAuth): ViewModel() {
+class LoginViewModel(private val dataSource: LoginDataSource): ViewModel() {
 
-    fun signIn(email: String, pwd: String): Int{
+
+    fun signInService(email: String, pwd: String): Int{
         var estate= -1
-        dataSource.signIn(email, pwd, auth)
-        if (auth.currentUser!==null){
-            estate = 0
-        }
-        return estate
-    }
 
-    fun signInWithGoogle(account: GoogleSignInAccount?): Int {
-        var estate=-1
-        dataSource.signInWithGoogle(account, auth)
-        if(auth.currentUser!=null){
-            estate = 0
-        }
+        Log.i("Info", "SignInServiceViewModel")
+        dataSource.signIn(email, pwd, object : ObjectOperation {
+            override fun onSucces(obj: Any?) {
+                Log.i("obj ", "$obj")
+            }
+
+            override fun onError(obj: Any?) {
+                Log.e("Error ", "$obj")
+            }
+        })
         return estate
     }
 
