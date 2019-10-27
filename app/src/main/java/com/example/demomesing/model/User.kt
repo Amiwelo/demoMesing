@@ -16,6 +16,8 @@ data class User (
     var tokenExpire: Int,
     @SerializedName("Id")
     var id: String,
+    @SerializedName("NombreUsuario")
+    var nickName: String,
     @SerializedName("Nombre")
     var nameUser: String,
     @SerializedName("Apellido")

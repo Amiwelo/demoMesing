@@ -1,5 +1,6 @@
 package com.example.demomesing.features.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
@@ -26,13 +27,16 @@ class HomeActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+
     private fun init(){
         tv_usuario.text = user.nameUser+" "+user.lastNameUser
-        if (user.codeStatus.equals("Connected")){
-            tv_dashboard.text="Dashboard "+user.codeStatus
-            Picasso.with(this)
+        if (user.codeStatus==200){
+            tv_dashboard.text="Dashboard "+user.status
+            //val picasso = Picasso.
+            Picasso.get()
                 .load(user.avatar)
-                .placeholder(R.id.img_profile)
+                .placeholder(R.color.colorPrimary)
+                .into(img_profile)
         }
     }
 }

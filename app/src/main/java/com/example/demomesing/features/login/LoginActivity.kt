@@ -1,17 +1,24 @@
 package com.example.demomesing.features.login
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.demomesing.R
 import com.example.demomesing.base.BaseActivity
+import com.example.demomesing.data.session.ShPreference
 import com.example.demomesing.di.Injection
 import com.example.demomesing.features.home.HomeActivity
 import com.example.demomesing.model.User
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.math.log
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
 
@@ -26,7 +33,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private lateinit var viewModel: LoginViewModel
-
+    private lateinit var shPreference: ShPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +42,22 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         btn_ingresar.setOnClickListener(this)
     }
     private fun initApp() {
+        shPreference = ShPreference(getSharedPreferences(ShPreference.PREFERENCE_NAME, Context.MODE_PRIVATE), this)
+        Log.i("EMAIL -->",shPreference.user?.email)
+        if(shPreference==null){
+            Log.i("VACIO", "No existe usuario en cache")
+        } else {
+            val name = shPreference.user!!.nickName
+            //val pwd = shPreference.user!!.token
+            et_user.setText(name)
+        }
+
         viewModel = ViewModelProviders.of(
             this,
-            LoginViewModelFactory(Injection.getLogin())).get(LoginViewModel::class.java)
+            LoginViewModelFactory(Injection.getLogin(),
+            ShPreference(getSharedPreferences(
+                ShPreference.PREFERENCE_NAME,
+                Context.MODE_PRIVATE), this))).get(LoginViewModel::class.java)
         viewModel.responseBody.observe(this, response)
     }
     private val response = Observer<User>{
@@ -51,6 +71,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     private fun sendHome(user: User) {
         val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         intent.putExtra("objUser", user)
         startActivity(intent)
     }
