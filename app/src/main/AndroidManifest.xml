@@ -12,8 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".features.profile.ProfileActivity"></activity>
-        <activity android:name=".features.home.HomeActivity" />
+        <activity
+            android:name=".features.home.HomeActivity"
+            android:label="@string/title_activity_menu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".features.profile.ProfileActivity" />
+        <activity android:name=".features.home.Home2Activity" />
         <activity android:name=".features.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
