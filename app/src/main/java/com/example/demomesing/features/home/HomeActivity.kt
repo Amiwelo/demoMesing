@@ -1,5 +1,6 @@
 package com.example.demomesing.features.home
 
+import android.content.ClipData
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -15,17 +16,28 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
+import android.widget.EditText
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
 import com.example.demomesing.R
 import com.example.demomesing.data.session.ShPreference
+import com.example.demomesing.di.Injection
+import com.example.demomesing.model.Collection
+import com.example.demomesing.model.Main
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.nav_header_menu.*
+import java.lang.reflect.Array
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var viewModel: HomeViewModel
     private lateinit var shPreference: ShPreference
-
+    private lateinit var navView: NavigationView
+    private lateinit var navController: NavController
+    private lateinit var menu: Menu
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
@@ -38,8 +50,8 @@ class HomeActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
-        val navController = findNavController(R.id.nav_host_fragment)
+        navView = findViewById(R.id.nav_view)
+        navController  = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
@@ -50,30 +62,44 @@ class HomeActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        menu = navView.menu
         initApp()
     }
+    private fun paintMain(item: List<Main>){
 
+    }
 
     private fun initApp(){
-        /*viewModel = ViewModelProviders.of(this, HomeViewModelFactory(Injection.getHome(),
-        ShPreference(getSharedPreferences(
+        viewModel = ViewModelProviders.of(this, HomeViewModelFactory(Injection.getHome(),
+            ShPreference(getSharedPreferences(
                 ShPreference.PREFERENCE_NAME,
                 Context.MODE_PRIVATE
-                ),this))).get(HomeViewModel::class.java)
-        */shPreference = ShPreference(getSharedPreferences(ShPreference.PREFERENCE_NAME, Context.MODE_PRIVATE), this)
+            ),this))).get(HomeViewModel::class.java)
+        viewModel.launchMain(1,1,1)
+        viewModel.responseBody.observe(this, response )
+    }
+
+    private val response = Observer<Collection>{
+        val menu = it.collection
+        paintMain(menu)
+    }
+
+    private fun initProfile(){
+        shPreference = ShPreference(getSharedPreferences(ShPreference.PREFERENCE_NAME, Context.MODE_PRIVATE), this)
         Log.i("USER", ""+shPreference.user!!.email)
-        if(shPreference.user!!.codeStatus == 400){
+        if(shPreference.user == null){
             Log.i("Info", "sin datos")
         } else {
             val user = shPreference.user
             tv_email_slide.text = user?.email
+            tv_name_user_slide.text = user?.nameUser
             Picasso.get().load(user?.avatar).placeholder(R.color.colorPrimary).into(img_profile_slide)
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu, menu)
+        initProfile()
         return true
     }
 

@@ -39,7 +39,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun initApp() {
         shPreference = ShPreference(getSharedPreferences(ShPreference.PREFERENCE_NAME, Context.MODE_PRIVATE), this)
 
-        if(shPreference.user!!.codeStatus==400){
+        if(shPreference.user == null){
             Log.i("VACIO", "No existe usuario en cache")
         } else {
             Log.i("EMAIL -->",shPreference.user?.email)
@@ -58,17 +58,15 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
     private val response = Observer<User>{
         if(it.message=="OK"){
-            val user = viewModel.responseBody.value!!
-            sendHome(user)
+            sendHome()
         } else {
             toast("Error usuario fallo")
         }
     }
 
-    private fun sendHome(user: User) {
+    private fun sendHome() {
         val intent = Intent(this@LoginActivity, HomeActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        //intent.putExtra("objUser", user)
         startActivity(intent)
     }
 

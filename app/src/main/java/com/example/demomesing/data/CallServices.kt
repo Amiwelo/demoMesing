@@ -1,5 +1,6 @@
 package com.example.demomesing.data
 
+import com.example.demomesing.model.Collection
 import com.example.demomesing.model.User
 import com.google.gson.JsonObject
 import retrofit2.Response
@@ -11,4 +12,8 @@ interface CallServices {
     @POST("authenticate/token")
     @FormUrlEncoded
     suspend fun loggin(@FieldMap param: Map<String, String>): Response<User>
+
+    @POST("menu/lstMenu")
+    @FormUrlEncoded
+    suspend fun lstMain(@FieldMap param: Map<String, String>): Response<Collection>
 }
