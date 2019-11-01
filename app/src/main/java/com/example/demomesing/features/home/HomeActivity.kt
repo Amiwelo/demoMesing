@@ -18,6 +18,10 @@ import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
+import androidx.core.view.forEach
+import androidx.core.view.get
+import androidx.core.view.iterator
+import androidx.core.view.size
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
@@ -38,6 +42,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var navView: NavigationView
     private lateinit var navController: NavController
     private lateinit var menu: Menu
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
@@ -54,6 +60,7 @@ class HomeActivity : AppCompatActivity() {
         navController  = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        //setupActionBarWithNavController(navController, appBarConfiguration)
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
@@ -65,8 +72,13 @@ class HomeActivity : AppCompatActivity() {
         menu = navView.menu
         initApp()
     }
-    private fun paintMain(item: List<Main>){
 
+    private fun paintMain(mains: List<Main>) {
+
+        for (item in menu.iterator()) {
+            for (main in mains)
+            item.title = main.nomMain
+        }
     }
 
     private fun initApp(){
@@ -75,8 +87,7 @@ class HomeActivity : AppCompatActivity() {
                 ShPreference.PREFERENCE_NAME,
                 Context.MODE_PRIVATE
             ),this))).get(HomeViewModel::class.java)
-        viewModel.launchMain(1,1,1)
-        viewModel.responseBody.observe(this, response )
+        viewModel.launchMain(2,1,1)
     }
 
     private val response = Observer<Collection>{
@@ -99,6 +110,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
+        viewModel.responseBody.observe(this, response )
         initProfile()
         return true
     }

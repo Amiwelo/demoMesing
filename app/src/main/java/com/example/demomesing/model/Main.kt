@@ -8,5 +8,11 @@ data class Main (
     @SerializedName("NOM_GRU")
     var namGroup: String,
     @SerializedName("ICO_GRU")
-    var icoGroup: String
+    var icoGroup: String,
+    @SerializedName("ID_MEN")
+    var idMain: String,
+    @SerializedName("NOM_MEN")
+    var nomMain: String,
+    @SerializedName("RUT_MEN")
+    var rutMain: String
 )
