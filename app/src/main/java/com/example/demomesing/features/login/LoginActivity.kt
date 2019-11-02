@@ -3,6 +3,7 @@ package com.example.demomesing.features.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
@@ -11,7 +12,7 @@ import com.example.demomesing.R
 import com.example.demomesing.base.BaseActivity
 import com.example.demomesing.data.session.ShPreference
 import com.example.demomesing.di.Injection
-import com.example.demomesing.features.home.Home2Activity
+import com.example.demomesing.features.home.HomeActivity
 import com.example.demomesing.model.User
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -23,7 +24,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btn_ingresar -> signInService()
+            R.id.btn_ingresar -> { signInService() }
         }
     }
 
@@ -32,7 +33,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         initApp()
         btn_ingresar.setOnClickListener(this)
     }
@@ -65,7 +65,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun sendHome() {
-        val intent = Intent(this@LoginActivity, Home2Activity::class.java)
+        loader()
+        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
     }
@@ -74,18 +75,18 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun fieldsEmpty(): Boolean {
         var validate = true
 
-        if (et_user.text.isEmpty()) {
-            et_user.error = "Requerid."
+        if (et_user.text.isNullOrEmpty()) {
+            et_user.error = "Requerido"
             validate = false
-            toast("ingrese usuario")
+            toast("Ingrese usuario")
         } else {
             et_user.error = null
         }
 
-        if (et_password.text.isEmpty()) {
-            et_password.error = "Requerid."
+        if (et_password.text.isNullOrEmpty()) {
+            et_password.error = "Requerido"
             validate = false
-            toast("ingrese contraseña")
+            toast("Ingrese contraseña")
         } else {
             et_password.error = null
         }
@@ -95,12 +96,15 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
 
     private fun signInService(){
+        showProgressBar()
         if (!fieldsEmpty()) {
             return
         }
         Log.i("Info", "SignInService")
         viewModel.signInService(et_user.text.toString(), et_password.text.toString())
     }
-
+    private fun loader(){
+        Handler().postDelayed({ hideProgressBarr() },500)
+    }
 
 }

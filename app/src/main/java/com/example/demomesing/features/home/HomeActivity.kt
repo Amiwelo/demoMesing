@@ -17,7 +17,7 @@ import com.example.demomesing.model.Main
 import com.gauravk.bubblenavigation.BubbleNavigationLinearView
 import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener
 
-class Home2Activity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
 
     private lateinit var viewModel: HomeViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,9 +42,10 @@ class Home2Activity : AppCompatActivity() {
     private fun paintMain(item: List<Main>){
         val list = ArrayList<ScreenSlidePageFragment>()
         for(it in item){
-            list.add(ScreenSlidePageFragment.newInstance(it.nomMain, R.color.red_inactive))
+            list.add(ScreenSlidePageFragment.newInstance(it.nomMain,
+                selectColor(it.idMain.toInt())))
         }
-        Log.i("TAG", "$list")
+
         val screenSlidePagerAdapter = ScreenSlidePagerAdapter(list, supportFragmentManager)
 
         val bubble=findViewById<BubbleNavigationLinearView>(R.id.bottom_navigation_view_linear)
@@ -73,5 +74,17 @@ class Home2Activity : AppCompatActivity() {
     }
     private val response = Observer<Collection>{
         paintMain(it.collection)
+    }
+    private fun selectColor(int: Int): Int{
+        var color = 0
+        when(int){
+            1 -> color = R.color.red_active
+            2 -> color = R.color.orange_inactive
+            3 -> color = R.color.purple_active
+            4 -> color = R.color.red_inactive
+            5 -> color = R.color.green_active
+            6 -> color = R.color.blue_inactive
+        }
+        return color
     }
 }

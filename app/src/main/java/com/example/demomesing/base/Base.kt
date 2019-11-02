@@ -5,6 +5,6 @@ interface Base {
         fun toast(msj: String)
         fun showError(msjError: String)
         fun hideProgressBarr()
-        fun showProgressBarr()
+        fun showProgressBar()
     }
 }

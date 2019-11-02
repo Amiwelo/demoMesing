@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".features.home.Home2Activity"
+            android:name=".features.home.HomeActivity"
             android:label="@string/title_activity_menu"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".features.profile.ProfileActivity" />

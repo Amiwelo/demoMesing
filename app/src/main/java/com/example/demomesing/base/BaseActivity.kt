@@ -35,8 +35,8 @@ abstract class BaseActivity : AppCompatActivity(), Base.View {
         progressBarLogin.visibility = View.GONE
     }
 
-    override fun showProgressBarr(){
-        progressBarLogin.visibility = View.GONE
+    override fun showProgressBar(){
+        progressBarLogin.visibility = View.VISIBLE
     }
 
 

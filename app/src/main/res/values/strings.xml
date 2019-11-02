@@ -1,22 +1,11 @@
 <resources>
     <string name="app_name">demoMesing</string>
     <string name="title_activity_menu">MenuActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
 
-    <string name="home">Home</string>
-    <string name="search">Search</string>
-    <string name="profile">Profile</string>
-    <string name="notification">Notify</string>
-    <string name="likes">Favs</string>
-    <string name="happy">Happy</string>
-    <string name="room">Room</string>
-    <string name="restaurant">Food</string>
-    <string name="shop">Shop</string>
-    <string name="photos">Pics</string>
-    <string name="call">Call</string>
+    <string name="crud_home">Mant. Menu</string>
+    <string name="crud_profile">Mant. Perfil</string>
+    <string name="crud_rol">Mant. Rol</string>
+    <string name="profile">Perfil</string>
+    <string name="search">Busqueda</string>
+    <string name="reg_profile">Reg. Perfil</string>
 </resources>
