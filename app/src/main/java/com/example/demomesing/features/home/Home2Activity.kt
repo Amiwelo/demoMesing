@@ -1,40 +1,77 @@
 package com.example.demomesing.features.home
 
-import android.content.Intent
+import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.viewpager.widget.ViewPager
 import com.example.demomesing.R
-import com.example.demomesing.features.profile.ProfileActivity
-import com.example.demomesing.model.User
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_home.*
+import com.example.demomesing.data.session.ShPreference
+import com.example.demomesing.di.Injection
+import com.example.demomesing.model.Collection
+import com.example.demomesing.model.Main
+import com.gauravk.bubblenavigation.BubbleNavigationLinearView
+import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener
 
 class Home2Activity : AppCompatActivity() {
-    private lateinit var user: User
+
+    private lateinit var viewModel: HomeViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        user = intent.extras?.getSerializable("objUser") as User
-        init()
-        btn_profile.setOnClickListener { sendProfile() }
+        initApp()
+        viewModel.responseBody.observe(this, response )
+
     }
 
-    private fun sendProfile() {
-        val intent = Intent(this@Home2Activity, ProfileActivity::class.java)
-        intent.putExtra("objUser", user)
-        startActivity(intent)
+    private fun initApp(){
+        viewModel = ViewModelProviders.of(this, HomeViewModelFactory(
+            Injection.getHome(),
+            ShPreference(getSharedPreferences(
+                ShPreference.PREFERENCE_NAME,
+                Context.MODE_PRIVATE
+            ),this)
+        )).get(HomeViewModel::class.java)
+        viewModel.launchMain(2,1,1)
+
     }
-
-
-    private fun init(){
-        tv_usuario.text = user.nameUser+" "+user.lastNameUser
-        if (user.codeStatus==200){
-            tv_dashboard.text="Dashboard "+user.status
-            //val picasso = Picasso.
-            Picasso.get()
-                .load(user.avatar)
-                .placeholder(R.color.colorPrimary)
-                .into(img_profile)
+    private fun paintMain(item: List<Main>){
+        val list = ArrayList<ScreenSlidePageFragment>()
+        for(it in item){
+            list.add(ScreenSlidePageFragment.newInstance(it.nomMain, R.color.red_inactive))
         }
+        Log.i("TAG", "$list")
+        val screenSlidePagerAdapter = ScreenSlidePagerAdapter(list, supportFragmentManager)
+
+        val bubble=findViewById<BubbleNavigationLinearView>(R.id.bottom_navigation_view_linear)
+        bubble.setTypeface(Typeface.createFromAsset(assets, "rubik.ttf"))
+        val viewPager = findViewById<ViewPager>(R.id.view_pager)
+        viewPager.adapter = screenSlidePagerAdapter
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+
+            }
+
+            override fun onPageSelected(position: Int) {
+                bubble.setCurrentActiveItem(position)
+            }
+
+        })
+        bubble.setNavigationChangeListener { _, position -> viewPager.setCurrentItem(position, true) }
+    }
+    private val response = Observer<Collection>{
+        paintMain(it.collection)
     }
 }

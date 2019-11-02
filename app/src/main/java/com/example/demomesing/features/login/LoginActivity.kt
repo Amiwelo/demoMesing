@@ -11,7 +11,7 @@ import com.example.demomesing.R
 import com.example.demomesing.base.BaseActivity
 import com.example.demomesing.data.session.ShPreference
 import com.example.demomesing.di.Injection
-import com.example.demomesing.features.home.HomeActivity
+import com.example.demomesing.features.home.Home2Activity
 import com.example.demomesing.model.User
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -65,7 +65,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun sendHome() {
-        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+        val intent = Intent(this@LoginActivity, Home2Activity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
     }
