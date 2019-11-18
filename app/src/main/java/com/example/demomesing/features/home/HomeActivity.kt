@@ -42,8 +42,7 @@ class HomeActivity : AppCompatActivity() {
     private fun paintMain(item: List<Main>){
         val list = ArrayList<ScreenSlidePageFragment>()
         for(it in item){
-            list.add(ScreenSlidePageFragment.newInstance(it.nomMain,
-                selectColor(it.idMain.toInt())))
+            list.add(ScreenSlidePageFragment.newInstance(it))
         }
 
         val screenSlidePagerAdapter = ScreenSlidePagerAdapter(list, supportFragmentManager)
@@ -74,17 +73,5 @@ class HomeActivity : AppCompatActivity() {
     }
     private val response = Observer<Collection>{
         paintMain(it.collection)
-    }
-    private fun selectColor(int: Int): Int{
-        var color = 0
-        when(int){
-            1 -> color = R.color.red_active
-            2 -> color = R.color.orange_inactive
-            3 -> color = R.color.purple_active
-            4 -> color = R.color.red_inactive
-            5 -> color = R.color.green_active
-            6 -> color = R.color.blue_inactive
-        }
-        return color
     }
 }

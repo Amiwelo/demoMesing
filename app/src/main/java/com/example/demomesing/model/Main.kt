@@ -1,6 +1,7 @@
 package com.example.demomesing.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Main (
     @SerializedName("ID_GRU")
@@ -15,4 +16,4 @@ data class Main (
     var nomMain: String,
     @SerializedName("RUT_MEN")
     var rutMain: String
-)
+):Serializable

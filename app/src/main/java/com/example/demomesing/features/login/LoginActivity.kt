@@ -42,8 +42,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         if(shPreference.user == null){
             Log.i("VACIO", "No existe usuario en cache")
         } else {
-            Log.i("EMAIL -->",shPreference.user?.email)
-            val name = shPreference.user!!.nickName
+            val name = shPreference.user?.nickName
             //val pwd = shPreference.user!!.token
             et_user.setText(name)
         }

@@ -7,9 +7,13 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isInvisible
 import kotlinx.android.synthetic.main.activity_main.*
 
 abstract class BaseActivity : AppCompatActivity(), Base.View {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -32,10 +36,12 @@ abstract class BaseActivity : AppCompatActivity(), Base.View {
     }
 
     override fun hideProgressBarr(){
+        login_layout.visibility = View.VISIBLE
         progressBarLogin.visibility = View.GONE
     }
 
     override fun showProgressBar(){
+        window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
         progressBarLogin.visibility = View.VISIBLE
     }
 
