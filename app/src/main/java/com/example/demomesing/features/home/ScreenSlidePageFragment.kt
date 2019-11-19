@@ -75,10 +75,10 @@ class ScreenSlidePageFragment : Fragment() {
         val user = shPreference.user
 
         if (shPreference.user != null) {
-            Picasso.get().load(user!!.avatar).placeholder(R.color.colorAccent)
+            Picasso.get().load(user!!.img).placeholder(R.color.colorAccent)
                 .into(screen_slide_img_user)
-            screen_slide_tv_name_user.text = user.nameUser
-            screen_slide_tv_user.text = user.nickName
+            screen_slide_tv_name_user.text = user.nom_usu
+            screen_slide_tv_user.text = user.log_usu
         }
         inflatedView.setBackgroundColor(ContextCompat.getColor(context!!, bgColorResId))
         screen_slide_title.text = title

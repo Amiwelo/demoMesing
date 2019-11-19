@@ -15,7 +15,7 @@ class HomeViewModel (private val dataSource: HomeDataSource, private val shPrefe
 
     fun launchMain(Option: Int, IdRol: Int, IdPer: Int) {
         dataSource.launchMain(Option, IdRol, IdPer, object : ObjectOperation {
-            override fun onSucces(obj: Any?) {
+            override fun onSuccess(obj: Any?) {
                 _responseBody.value = obj as Collection
             }
 

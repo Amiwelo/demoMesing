@@ -27,7 +27,7 @@ class HomeRepository: HomeDataSource{
                 withContext(Dispatchers.Main){
                     if (response.isSuccessful){
                         Log.i("MAIN", "${response.body()}")
-                        objectOperation.onSucces(response.body())
+                        objectOperation.onSuccess(response.body())
                     } else {
                         objectOperation.onError(response.errorBody())
                     }

@@ -1,11 +1,15 @@
 package com.example.demomesing.features.login
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
+import android.view.Window
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.demomesing.R
@@ -29,7 +33,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private lateinit var viewModel: LoginViewModel
-    private lateinit var shPreference: ShPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,16 +40,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         btn_ingresar.setOnClickListener(this)
     }
     private fun initApp() {
-        shPreference = ShPreference(getSharedPreferences(ShPreference.PREFERENCE_NAME, Context.MODE_PRIVATE), this)
-
-        if(shPreference.user == null){
-            Log.i("VACIO", "No existe usuario en cache")
-        } else {
-            val name = shPreference.user?.nickName
-            //val pwd = shPreference.user!!.token
-            et_user.setText(name)
-        }
-
         viewModel = ViewModelProviders.of(
             this,
             LoginViewModelFactory(Injection.getLogin(),
@@ -54,13 +47,15 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 ShPreference.PREFERENCE_NAME,
                 Context.MODE_PRIVATE), this))).get(LoginViewModel::class.java)
         viewModel.responseBody.observe(this, response)
+        viewModel.message.observe(this, message)
     }
+    private val message = Observer<String> {
+        loader()
+        toast(it)
+    }
+
     private val response = Observer<User>{
-        if(it.message=="OK"){
-            sendHome()
-        } else {
-            toast("Error usuario fallo")
-        }
+        sendHome()
     }
 
     private fun sendHome() {
@@ -101,9 +96,28 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         }
         Log.i("Info", "SignInService")
         viewModel.signInService(et_user.text.toString(), et_password.text.toString())
+        enableFields(false)
+    }
+    private fun enableFields(boolean: Boolean){
+        et_user.isEnabled = boolean
+        et_password.isEnabled = boolean
+        et_password.isClickable = boolean
+        et_user.isClickable = boolean
     }
     private fun loader(){
         Handler().postDelayed({ hideProgressBarr() },500)
+        enableFields(true)
+    }
+
+    private fun transition(context: Context){
+        val pd = Dialog(context)
+        pd.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        pd.setContentView(R.layout.activity_main)
+        pd.progressBarLogin.visibility=View.VISIBLE
+        pd.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        pd.setCancelable(true)
+        pd.setCanceledOnTouchOutside(true)
+        pd.show()
     }
 
 }

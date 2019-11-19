@@ -1,5 +1,7 @@
 package com.example.demomesing.base
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.view.Window
@@ -36,7 +38,6 @@ abstract class BaseActivity : AppCompatActivity(), Base.View {
     }
 
     override fun hideProgressBarr(){
-        login_layout.visibility = View.VISIBLE
         progressBarLogin.visibility = View.GONE
     }
 
@@ -45,7 +46,10 @@ abstract class BaseActivity : AppCompatActivity(), Base.View {
         progressBarLogin.visibility = View.VISIBLE
     }
 
-
+    override fun onBackPressed() {
+        super.onBackPressed()
+        window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+    }
 }
 
 

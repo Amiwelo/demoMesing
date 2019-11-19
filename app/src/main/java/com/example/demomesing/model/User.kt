@@ -4,32 +4,25 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class User (
-    @SerializedName("Status")
-    var status: String,
-    @SerializedName("CodeStatus")
-    var codeStatus: Int,
-    @SerializedName("Message")
-    var message: String,
-    @SerializedName("Token")
-    var token: String,
-    @SerializedName("TokenExpire")
-    var tokenExpire: Int,
-    @SerializedName("Id")
-    var id: String,
-    @SerializedName("NombreUsuario")
-    var nickName: String,
-    @SerializedName("Nombre")
-    var nameUser: String,
-    @SerializedName("Apellido")
-    var lastNameUser: String,
-    @SerializedName("Email")
-    var email: String,
-    @SerializedName("Avatar")
-    var avatar: String,
-    @SerializedName("IdEstadoUsuario")
-    var idStatusUser: Int,
-    @SerializedName("IdRol")
-    var idRol: Int,
-    @SerializedName("IdPerfil")
-    var idProfile: Int
+@SerializedName("ID_US")
+var id: Int,
+@SerializedName("LOG_USU")
+var log_usu: String,
+@SerializedName("PRI_NOM_USU")
+var nom_usu: String,
+@SerializedName("APE_PAT_USU")
+var ape_pat: String,
+@SerializedName("APE_MAT_USU")
+var ape_mat: String,
+@SerializedName("EMA_USU")
+var email: String,
+@SerializedName("IMA_USU")
+var img: String,
+@SerializedName("ID_EST_USU")
+var id_est_usu: Int,
+@SerializedName("ID_ROL")
+var id_rol: Int,
+@SerializedName("ID_PER")
+var id_per: Int,
+var error: String
 ): Serializable

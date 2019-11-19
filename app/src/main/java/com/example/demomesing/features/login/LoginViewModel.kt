@@ -7,28 +7,27 @@ import androidx.lifecycle.ViewModel
 import com.example.demomesing.data.ObjectOperation
 import com.example.demomesing.data.session.ShPreference
 import com.example.demomesing.model.User
-import com.google.gson.Gson
 
 class LoginViewModel(private val dataSource: LoginDataSource, private val shPreference: ShPreference): ViewModel() {
 
     private val _responseBody = MutableLiveData<User>()
     val responseBody: LiveData<User> = _responseBody
 
-    fun signInService(email: String, pwd: String): Int{
-        var estate= -1
-        Log.i("Info", "SignInServiceViewModel")
+    private val _message = MutableLiveData<String>()
+    val message : LiveData<String> = _message
+
+    fun signInService(email: String, pwd: String){
         dataSource.signIn(email, pwd, object : ObjectOperation {
-            override fun onSucces(obj: Any?) {
+            override fun onSuccess(obj: Any?) {
                 Log.i("obj ", "$obj")
                 _responseBody.value = obj as User?
                 shPreference.user = obj
             }
 
             override fun onError(obj: Any?) {
-                Log.e("Error ", "$obj")
+                _message.value = obj as String?
             }
         })
-        return estate
     }
 
 }
