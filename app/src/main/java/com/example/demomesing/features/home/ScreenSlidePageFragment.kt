@@ -46,10 +46,7 @@ class ScreenSlidePageFragment : Fragment() {
     }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         inflatedView = inflater.inflate(R.layout.fragment_screen_slide_profile, container, false)
         return inflatedView
     }
@@ -112,6 +109,13 @@ class ScreenSlidePageFragment : Fragment() {
                 4 -> color = R.color.red_inactive
                 5 -> color = R.color.green_active
                 6 -> color = R.color.blue_inactive
+                7 -> color = R.color.green_active
+                8 -> color = R.color.blue_inactive
+                13 -> color = R.color.green_active
+                20 -> color = R.color.blue_inactive
+                21 -> color = R.color.blue_inactive
+                22 -> color = R.color.green_active
+                23 -> color = R.color.blue_inactive
             }
             return color
         }

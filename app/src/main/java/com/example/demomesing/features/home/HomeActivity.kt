@@ -29,6 +29,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun initApp(){
+        val shPreference = ShPreference(getSharedPreferences(ShPreference.PREFERENCE_NAME, Context.MODE_PRIVATE),this)
         viewModel = ViewModelProviders.of(this, HomeViewModelFactory(
             Injection.getHome(),
             ShPreference(getSharedPreferences(
@@ -36,7 +37,7 @@ class HomeActivity : AppCompatActivity() {
                 Context.MODE_PRIVATE
             ),this)
         )).get(HomeViewModel::class.java)
-        viewModel.launchMain(2,1,1)
+        viewModel.launchMain(2,shPreference.user!!.id_rol,shPreference.user!!.id_per)
 
     }
     private fun paintMain(item: List<Main>){
@@ -50,6 +51,7 @@ class HomeActivity : AppCompatActivity() {
         val bubble=findViewById<BubbleNavigationLinearView>(R.id.bottom_navigation_view_linear)
         bubble.setTypeface(Typeface.createFromAsset(assets, "rubik.ttf"))
         val viewPager = findViewById<ViewPager>(R.id.view_pager)
+
         viewPager.adapter = screenSlidePagerAdapter
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
