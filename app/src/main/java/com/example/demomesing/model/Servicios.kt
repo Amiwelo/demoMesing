@@ -3,7 +3,7 @@ package com.example.demomesing.model
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class Service (
+data class Servicios (
 @SerializedName("ID_SERV")
 val id_serv: Int,
 @SerializedName("ID_USU")

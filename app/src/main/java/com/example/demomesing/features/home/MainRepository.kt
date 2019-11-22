@@ -4,16 +4,18 @@ import android.util.Log
 import com.example.demomesing.data.ApiConfig
 import com.example.demomesing.data.CallServices
 import com.example.demomesing.data.ObjectOperation
-import com.google.gson.JsonIOException
+import com.example.demomesing.model.ResponseService
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
-import org.json.JSONException
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.lang.Exception
 
-class MainRepository: MainDataSource{
+class MainRepository : MainDataSource {
     private lateinit var parameter: MutableMap<String, String>
     private lateinit var callServices: CallServices
 
@@ -24,11 +26,11 @@ class MainRepository: MainDataSource{
         parameter["IdPer"] = val3.toString()
 
         callServices = ApiConfig.instanceClient()
-        CoroutineScope(Dispatchers.IO).launch{
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = callServices.lstMain(parameter)
-                withContext(Dispatchers.Main){
-                    if (response.isSuccessful){
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
                         Log.i("MAIN", "${response.body()}")
                         objectOperation.onSuccess(response.body())
                     } else {
@@ -41,27 +43,60 @@ class MainRepository: MainDataSource{
         }
     }
 
-
-    override fun getServices(idServ: Int, objectOperation: ObjectOperation) {
+    val gson = Gson()
+    override fun getServices(idServ: Int, param: ObjectOperation) {
         parameter = HashMap()
         parameter["Opcion"] = "1"
-        parameter["idServ"] = idServ.toString()
-
+        parameter["IdServ"] = idServ.toString()
+        Log.i("TAG SERVICES", "Servicios todos")
         callServices = ApiConfig.instanceClient()
+        val call: Call<ResponseService> = callServices.getAllServices(parameter)
 
-        CoroutineScope(Dispatchers.IO).launch{
+        call.enqueue(object : Callback<ResponseService> {
+            override fun onFailure(call: Call<ResponseService>, t: Throwable) {
+                    param.onError("error")
+            }
+
+            override fun onResponse(
+                call: Call<ResponseService>,
+                response: Response<ResponseService>
+            ) {
+                if(response.isSuccessful){
+                    val objService = response.body()!!.listObjects
+                    param.onSuccess(objService)
+                } else {
+                    Log.ERROR
+                }
+
+            }
+
+        })
+    }
+    /*
+
+        parameter = HashMap()
+        parameter["Opcion"] = "1"
+        parameter["IdServ"] = idServ.toString()
+        Log.i("TAG SERVICES", "Servicios todos")
+        callServices = ApiConfig.instanceClient()
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = callServices.getAllServices(parameter)
-                withContext(Dispatchers.Main){
-                    if(response.isSuccessful){
-                        objectOperation.onSuccess(response.body())
+                withContext(Dispatchers.Main) {
+                    if (response.isExecuted) {
+
+                        val objList = response
+                        Log.i("TAG", "${objList}")
+                        param.onSuccess(objList)
+
                     } else {
-                        objectOperation.onError(response.errorBody())
+                        Log.ERROR
                     }
                 }
-            } catch (e: JSONException){
-                e.printStackTrace()
+            } catch (e: Exception) {
+                param.onError(e.printStackTrace())
             }
         }
-    }
+
+    */
 }
