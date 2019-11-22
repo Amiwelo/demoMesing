@@ -4,13 +4,16 @@ import android.util.Log
 import com.example.demomesing.data.ApiConfig
 import com.example.demomesing.data.CallServices
 import com.example.demomesing.data.ObjectOperation
+import com.google.gson.JsonIOException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.Dispatcher
+import org.json.JSONException
 import java.lang.Exception
 
-class HomeRepository: HomeDataSource{
+class MainRepository: MainDataSource{
     private lateinit var parameter: MutableMap<String, String>
     private lateinit var callServices: CallServices
 
@@ -38,4 +41,27 @@ class HomeRepository: HomeDataSource{
         }
     }
 
+
+    override fun getServices(idServ: Int, objectOperation: ObjectOperation) {
+        parameter = HashMap()
+        parameter["Opcion"] = "1"
+        parameter["idServ"] = idServ.toString()
+
+        callServices = ApiConfig.instanceClient()
+
+        CoroutineScope(Dispatchers.IO).launch{
+            try {
+                val response = callServices.getAllServices(parameter)
+                withContext(Dispatchers.Main){
+                    if(response.isSuccessful){
+                        objectOperation.onSuccess(response.body())
+                    } else {
+                        objectOperation.onError(response.errorBody())
+                    }
+                }
+            } catch (e: JSONException){
+                e.printStackTrace()
+            }
+        }
+    }
 }

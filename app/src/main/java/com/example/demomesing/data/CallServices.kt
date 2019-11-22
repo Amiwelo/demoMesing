@@ -2,6 +2,7 @@ package com.example.demomesing.data
 
 import com.example.demomesing.model.Collection
 import com.example.demomesing.model.ResponseData
+import com.example.demomesing.model.Service
 import retrofit2.Response
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
@@ -15,4 +16,8 @@ interface CallServices {
     @POST("menu/lstMenu")
     @FormUrlEncoded
     suspend fun lstMain(@FieldMap param: Map<String, String>): Response<Collection>
+
+    @POST
+    @FormUrlEncoded
+    fun getAllServices(@FieldMap param: Map<String, String>): Response<Service>
 }

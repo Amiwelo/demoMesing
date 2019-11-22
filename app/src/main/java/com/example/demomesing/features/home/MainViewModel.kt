@@ -8,7 +8,7 @@ import com.example.demomesing.data.ObjectOperation
 import com.example.demomesing.data.session.ShPreference
 import com.example.demomesing.model.Collection
 
-class HomeViewModel (private val dataSource: HomeDataSource, private val shPreference: ShPreference):ViewModel() {
+class MainViewModel (private val dataSource: MainDataSource, private val shPreference: ShPreference):ViewModel() {
 
     private var _responseBody = MutableLiveData<Collection>()
     var responseBody : LiveData<Collection> = _responseBody
