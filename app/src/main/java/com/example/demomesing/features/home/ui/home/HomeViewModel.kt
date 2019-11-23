@@ -24,8 +24,6 @@ class HomeViewModel(private val dataSource: MainDataSource) : ViewModel() {
     fun getServices(idServ: Int) {
         dataSource.getServices(idServ, object : ObjectOperation {
             override fun onSuccess(obj: Any?) {
-                //val json = obj as JsonObject
-                //Log.i("JSON", "${json}")
                 _listService.value = obj as List<Servicios>
                 Log.i("TAG", "${_listService.value}")
             }

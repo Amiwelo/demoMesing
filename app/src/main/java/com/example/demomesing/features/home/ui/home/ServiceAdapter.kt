@@ -6,17 +6,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.demomesing.R
 import com.example.demomesing.model.Servicios
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_services.view.*
 
 class ServiceAdapter(private val listener: Listener) :RecyclerView.Adapter<ServiceAdapter.ViewHolder>() {
     lateinit var listServicios: List<Servicios>
+
+
 
     class ViewHolder (itemView: View): RecyclerView.ViewHolder(itemView) {
         fun bind(data: Servicios, listener: Listener)= with(itemView){
             tv_cellphone_item.text = data.cel_usu
             tv_name_item.text = data.pri_nom_usu+ " " + data.ape_pat_usu
             tv_service_item.text = data.seu_usu
-            tv_enterprise_item.text = data.des_tip_serv
+            //tv_enterprise_item.text = data.des_tip_serv
+            Picasso.get().load(data.ima_usu).placeholder(R.color.blue_bg_light).into(img_photo_item)
         }
     }
 
@@ -31,6 +35,10 @@ class ServiceAdapter(private val listener: Listener) :RecyclerView.Adapter<Servi
 
     override fun onBindViewHolder(holder: ServiceAdapter.ViewHolder, position: Int) {
         holder.bind(listServicios[position], listener)
+    }
+    fun setData(lista :List<Servicios>){
+        this.listServicios = lista
+        notifyDataSetChanged()
     }
 }
 interface Listener{

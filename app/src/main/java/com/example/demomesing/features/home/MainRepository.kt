@@ -46,7 +46,7 @@ class MainRepository : MainDataSource {
     val gson = Gson()
     override fun getServices(idServ: Int, param: ObjectOperation) {
         parameter = HashMap()
-        parameter["Opcion"] = "1"
+        parameter["Opcion"] = "2"
         parameter["IdServ"] = idServ.toString()
         Log.i("TAG SERVICES", "Servicios todos")
         callServices = ApiConfig.instanceClient()

@@ -64,8 +64,7 @@ class HomeActivity : AppCompatActivity() {
 
         tv_email_user.text = user?.email
         tv_name_user.text = user?.nom_usu+" "+user?.ape_pat
-        Picasso.get().load(user?.img).placeholder(R.color.colorAccent)
-            .into(img_profile_header)
+        Picasso.get().load(user?.img).placeholder(R.color.blue_grey_bg_light    ).into(img_profile_header)
         menuInflater.inflate(R.menu.main, menu)
         return true
     }

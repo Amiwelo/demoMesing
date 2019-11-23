@@ -1,6 +1,5 @@
 package com.example.demomesing.model
 
-import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 
 data class ResponseService (
@@ -9,5 +8,5 @@ data class ResponseService (
     @SerializedName("cMsjDetaill")
     val cMsjDetail: String,
     @SerializedName("DtCollection")
-    val listObjects: List<JsonObject>
+    val listObjects: List<Servicios>
 )
