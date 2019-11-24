@@ -1,4 +1,4 @@
-package com.example.demomesing.features.home.ui.tools
+package com.example.demomesing.features.home.ui.add
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import com.example.demomesing.data.ObjectOperation
 import com.example.demomesing.features.home.MainDataSource
 import com.example.demomesing.model.ResponseUsuario
 
-class ToolsViewModel(private val dataSource: MainDataSource) : ViewModel() {
+class AddViewModel(private val dataSource: MainDataSource) : ViewModel() {
 
     private val _msj = MutableLiveData<ResponseUsuario>()
     val msj: LiveData<ResponseUsuario> = _msj

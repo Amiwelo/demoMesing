@@ -22,14 +22,14 @@ class MainRepository : MainDataSource {
 
         callServices = ApiConfig.instanceClient()
         CoroutineScope(Dispatchers.Main).launch {
+            val response = callServices.lstMain(parameter)
             try {
-                val response = callServices.lstMain(parameter)
                 withContext(Dispatchers.Main) {
                     Log.i("MAIN", "$response")
                     objectOperation.onSuccess(response)
                 }
             } catch (e: Exception) {
-                objectOperation.onError(e.message)
+                objectOperation.onError(response.msj)
                 e.printStackTrace()
             }
         }
@@ -42,13 +42,13 @@ class MainRepository : MainDataSource {
         parameter["IdServ"] = idServ.toString()
         callServices = ApiConfig.instanceClient()
         CoroutineScope(Dispatchers.Main).launch {
+            val response = callServices.getAllServices(parameter)
             try {
-                val response = callServices.getAllServices(parameter)
                 withContext(Dispatchers.Main) {
                     param.onSuccess(response.listObjects)
                 }
             } catch (e: Exception) {
-                param.onError(e.message)
+                param.onError(response.cMsj)
                 e.printStackTrace()
             }
         }
@@ -81,10 +81,12 @@ class MainRepository : MainDataSource {
         CoroutineScope(Dispatchers.Main).launch {
             val response = callServices.addUser(parameter)
             try {
-                if (response.codeStatus != 200) {
-                    objectOperation.onError(response)
-                } else {
-                    objectOperation.onSuccess(response.cMsj)
+                withContext(Dispatchers.Main) {
+                    if (response.codeStatus != 200) {
+                        objectOperation.onError(response)
+                    } else {
+                        objectOperation.onSuccess(response.cMsj)
+                    }
                 }
             } catch (e: Exception) {
                 objectOperation.onError(response)

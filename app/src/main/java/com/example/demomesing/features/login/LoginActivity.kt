@@ -17,6 +17,7 @@ import com.example.demomesing.base.BaseActivity
 import com.example.demomesing.data.session.ShPreference
 import com.example.demomesing.di.Injection
 import com.example.demomesing.features.home.HomeActivity
+import com.example.demomesing.features.home.ui.add.AddActivity
 import com.example.demomesing.model.User
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -28,8 +29,19 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btn_ingresar -> { signInService() }
+            R.id.btn_ingresar -> {
+                signInService()
+            }
+            R.id.btn_add_usu -> {
+                registerUser()
+            }
         }
+    }
+
+    private fun registerUser() {
+        val intent = Intent(this@LoginActivity, AddActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 
     private lateinit var viewModel: LoginViewModel
@@ -38,23 +50,33 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         initApp()
         btn_ingresar.setOnClickListener(this)
+        btn_add_usu.setOnClickListener(this)
     }
+
     private fun initApp() {
+        progressBar = progressBarLogin
         viewModel = ViewModelProviders.of(
             this,
-            LoginViewModelFactory(Injection.getLogin(),
-            ShPreference(getSharedPreferences(
-                ShPreference.PREFERENCE_NAME,
-                Context.MODE_PRIVATE), this))).get(LoginViewModel::class.java)
+            LoginViewModelFactory(
+                Injection.getLogin(),
+                ShPreference(
+                    getSharedPreferences(
+                        ShPreference.PREFERENCE_NAME,
+                        Context.MODE_PRIVATE
+                    ), this
+                )
+            )
+        ).get(LoginViewModel::class.java)
         viewModel.responseBody.observe(this, response)
         viewModel.message.observe(this, message)
     }
+
     private val message = Observer<String> {
         loader()
         toast(it)
     }
 
-    private val response = Observer<User>{
+    private val response = Observer<User> {
         sendHome()
     }
 
@@ -88,32 +110,34 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-
-    private fun signInService(){
+    private fun signInService() {
         showProgressBar()
         if (!fieldsEmpty()) {
+            loader()
             return
         }
         Log.i("Info", "SignInService")
         viewModel.signInService(et_user.text.toString(), et_password.text.toString())
         enableFields(false)
     }
-    private fun enableFields(boolean: Boolean){
+
+    private fun enableFields(boolean: Boolean) {
         et_user.isEnabled = boolean
         et_password.isEnabled = boolean
         et_password.isClickable = boolean
         et_user.isClickable = boolean
     }
-    private fun loader(){
-        Handler().postDelayed({ hideProgressBarr() },500)
+
+    private fun loader() {
+        Handler().postDelayed({ hideProgressBarr() }, 500)
         enableFields(true)
     }
 
-    private fun transition(context: Context){
+    private fun transition(context: Context) {
         val pd = Dialog(context)
         pd.requestWindowFeature(Window.FEATURE_NO_TITLE)
         pd.setContentView(R.layout.activity_login)
-        pd.progressBarLogin.visibility=View.VISIBLE
+        pd.progressBarLogin.visibility = View.VISIBLE
         pd.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         pd.setCancelable(true)
         pd.setCanceledOnTouchOutside(true)

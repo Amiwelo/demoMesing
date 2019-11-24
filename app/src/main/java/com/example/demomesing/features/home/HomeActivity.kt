@@ -2,6 +2,7 @@ package com.example.demomesing.features.home
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
@@ -21,6 +22,7 @@ import com.example.demomesing.data.session.ShPreference
 import com.example.demomesing.di.Injection
 import com.example.demomesing.model.Collection
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
 class HomeActivity : AppCompatActivity() {
@@ -36,7 +38,6 @@ class HomeActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         initApp()
-        viewModel.responseBody.observe(this, response )
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
@@ -64,7 +65,8 @@ class HomeActivity : AppCompatActivity() {
 
         tv_email_user.text = user?.email
         tv_name_user.text = user?.nom_usu+" "+user?.ape_pat
-        Picasso.get().load(user?.img).placeholder(R.color.blue_grey_bg_light    ).into(img_profile_header)
+        Picasso.get().load(user?.img).placeholder(R.color.blue_grey_bg_light).into(img_profile_header)
+
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
@@ -84,9 +86,9 @@ class HomeActivity : AppCompatActivity() {
             ),this)
         )).get(MainViewModel::class.java)
         viewModel.launchMain(2,shPreference.user!!.id_rol,shPreference.user!!.id_per)
-
+        viewModel.responseBody.observe(this, response)
     }
     private val response = Observer<Collection>{
-        it.collection
+
     }
 }
