@@ -18,12 +18,12 @@ import com.example.demomesing.data.session.ShPreference
 import com.example.demomesing.di.Injection
 import com.example.demomesing.features.home.HomeActivity
 import com.example.demomesing.model.User
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
 
     override fun getLayout(): Int {
-        return R.layout.activity_main
+        return R.layout.activity_login
     }
 
     override fun onClick(v: View?) {
@@ -112,7 +112,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun transition(context: Context){
         val pd = Dialog(context)
         pd.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        pd.setContentView(R.layout.activity_main)
+        pd.setContentView(R.layout.activity_login)
         pd.progressBarLogin.visibility=View.VISIBLE
         pd.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         pd.setCancelable(true)

@@ -33,17 +33,15 @@ class LoginRepository : LoginDataSource {
             try {
                 val response = callServices.loggin(parameter)
                 withContext(Dispatchers.Main){
-                    if (response.isSuccessful){
-                        if(response.body()!!.codeStatus == 200){
-                            var obj = gson.fromJson(response.body()!!.objJson[0], User::class.java)
+                        if(response.codeStatus == 200){
+                            var obj = gson.fromJson(response.objJson[0], User::class.java)
                             Log.i("Response", "$obj")
                             param.onSuccess(obj)
                         } else {
-                            var msj = response.body()!!.message
+                            var msj = response.message
                             Log.i("Response", "$msj")
                             param.onError(msj)
                         }
-                    }
                 }
             } catch (e: Exception){
                 param.onError(e.printStackTrace())

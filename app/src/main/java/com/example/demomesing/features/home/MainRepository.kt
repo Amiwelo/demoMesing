@@ -4,16 +4,11 @@ import android.util.Log
 import com.example.demomesing.data.ApiConfig
 import com.example.demomesing.data.CallServices
 import com.example.demomesing.data.ObjectOperation
-import com.example.demomesing.model.ResponseService
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.lang.Exception
 
 class MainRepository : MainDataSource {
     private lateinit var parameter: MutableMap<String, String>
@@ -26,18 +21,15 @@ class MainRepository : MainDataSource {
         parameter["IdPer"] = val3.toString()
 
         callServices = ApiConfig.instanceClient()
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             try {
                 val response = callServices.lstMain(parameter)
                 withContext(Dispatchers.Main) {
-                    if (response.isSuccessful) {
-                        Log.i("MAIN", "${response.body()}")
-                        objectOperation.onSuccess(response.body())
-                    } else {
-                        objectOperation.onError(response.errorBody())
-                    }
+                    Log.i("MAIN", "$response")
+                    objectOperation.onSuccess(response)
                 }
             } catch (e: Exception) {
+                objectOperation.onError(e.message)
                 e.printStackTrace()
             }
         }
@@ -48,55 +40,57 @@ class MainRepository : MainDataSource {
         parameter = HashMap()
         parameter["Opcion"] = "2"
         parameter["IdServ"] = idServ.toString()
-        Log.i("TAG SERVICES", "Servicios todos")
         callServices = ApiConfig.instanceClient()
-        val call: Call<ResponseService> = callServices.getAllServices(parameter)
-
-        call.enqueue(object : Callback<ResponseService> {
-            override fun onFailure(call: Call<ResponseService>, t: Throwable) {
-                    param.onError("error")
-            }
-
-            override fun onResponse(
-                call: Call<ResponseService>,
-                response: Response<ResponseService>
-            ) {
-                if(response.isSuccessful){
-                    val objService = response.body()!!.listObjects
-                    param.onSuccess(objService)
-                } else {
-                    Log.ERROR
-                }
-
-            }
-
-        })
-    }
-    /*
-
-        parameter = HashMap()
-        parameter["Opcion"] = "1"
-        parameter["IdServ"] = idServ.toString()
-        Log.i("TAG SERVICES", "Servicios todos")
-        callServices = ApiConfig.instanceClient()
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             try {
                 val response = callServices.getAllServices(parameter)
                 withContext(Dispatchers.Main) {
-                    if (response.isExecuted) {
-
-                        val objList = response
-                        Log.i("TAG", "${objList}")
-                        param.onSuccess(objList)
-
-                    } else {
-                        Log.ERROR
-                    }
+                    param.onSuccess(response.listObjects)
                 }
             } catch (e: Exception) {
-                param.onError(e.printStackTrace())
+                param.onError(e.message)
+                e.printStackTrace()
             }
         }
+    }
 
-    */
+    override fun createUser(
+        name: String?,
+        lastNamePat: String?,
+        lastNameMat: String?,
+        email: String?,
+        userName: String?,
+        pwd: String?,
+        objectOperation: ObjectOperation
+    ) {
+        parameter = HashMap()
+        parameter["Opcion"] = "1"
+        parameter["PriNomUsu"] = name!!
+        parameter["ApePatUsu"] = lastNamePat!!
+        parameter["ApeMatUsu"] = lastNameMat!!
+        parameter["EmaUsu"] = email!!
+        parameter["LogUsu"] = userName!!
+        parameter["Pwd"] = pwd!!
+        parameter["IdEstUsu"] = "4"
+        parameter["IdRol"] = "2"
+        parameter["IdPer"] = "6"
+        parameter["Origen"] = "1"
+
+        callServices = ApiConfig.instanceClient()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = callServices.addUser(parameter)
+            try {
+                if (response.codeStatus != 200) {
+                    objectOperation.onError(response)
+                } else {
+                    objectOperation.onSuccess(response.cMsj)
+                }
+            } catch (e: Exception) {
+                objectOperation.onError(response)
+                e.printStackTrace()
+            }
+
+        }
+    }
 }

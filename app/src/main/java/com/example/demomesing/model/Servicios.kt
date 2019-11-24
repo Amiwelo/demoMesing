@@ -21,5 +21,7 @@ val cel_usu: String,
 @SerializedName("SEU_USU")
 val seu_usu: String,
 @SerializedName("DES_TIP_SERV")
-val des_tip_serv: String
+val des_tip_serv: String,
+@SerializedName("DES_SERV")
+val des_serv: String
 ): Serializable
