@@ -24,4 +24,8 @@ interface CallServices {
     @POST("usuario/mntUsuario")
     @FormUrlEncoded
     suspend fun addUser(@FieldMap param: Map<String, String>): ResponseUsuario
+
+    @POST("pregunta/lstPregunta")
+    @FormUrlEncoded
+    suspend fun getListQuestion(@FieldMap param: Map<String, String>): ResponseUsuario
 }
