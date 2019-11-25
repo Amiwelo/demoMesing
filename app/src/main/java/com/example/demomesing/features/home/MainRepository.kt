@@ -70,7 +70,7 @@ class MainRepository : MainDataSource {
         parameter["ApeMatUsu"] = lastNameMat!!
         parameter["EmaUsu"] = email!!
         parameter["LogUsu"] = userName!!
-        parameter["Pwd"] = pwd!!
+        parameter["PwdUsu"] = pwd!!
         parameter["IdEstUsu"] = "4"
         parameter["IdRol"] = "2"
         parameter["IdPer"] = "6"

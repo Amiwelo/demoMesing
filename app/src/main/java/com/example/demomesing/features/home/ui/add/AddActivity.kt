@@ -79,7 +79,7 @@ class AddActivity : BaseActivity() {
             validate = false
             toast("Ingrese apellido paterno")
         } else {
-            et_ape_pat_usu_registro.error = null
+            et_ape_pat_usu_registro_activity.error = null
         }
         if (et_ape_mat_usu_registro_activity.text.isNullOrEmpty()) {
             et_ape_mat_usu_registro_activity.error = "Requerido"
