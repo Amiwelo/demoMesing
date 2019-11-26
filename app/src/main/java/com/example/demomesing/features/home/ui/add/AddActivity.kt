@@ -1,5 +1,6 @@
 package com.example.demomesing.features.home.ui.add
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.demomesing.R
 import com.example.demomesing.base.BaseActivity
 import com.example.demomesing.di.Injection
+import com.example.demomesing.features.login.LoginActivity
 import com.example.demomesing.model.ResponseUsuario
 import kotlinx.android.synthetic.main.activity_add.*
 import kotlinx.android.synthetic.main.fragment_tools.*
@@ -110,6 +112,13 @@ class AddActivity : BaseActivity() {
             et_pwd_registro_activity.error = null
         }
         return validate
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this@AddActivity, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun loader() {

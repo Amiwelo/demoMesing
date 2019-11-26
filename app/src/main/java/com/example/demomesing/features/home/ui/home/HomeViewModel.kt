@@ -6,17 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.demomesing.data.ObjectOperation
 import com.example.demomesing.features.home.MainDataSource
-import com.example.demomesing.model.ResponseService
+import com.example.demomesing.model.Categoria
 import com.example.demomesing.model.Servicios
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 
 class HomeViewModel(private val dataSource: MainDataSource) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
+    private val _text = MutableLiveData<String>()
     val text: LiveData<String> = _text
+
+    private val _responseCategorias = MutableLiveData<List<Categoria>>()
+    val responseCategorias: LiveData<List<Categoria>> = _responseCategorias
 
     private var _listService = MutableLiveData<List<Servicios>>()
     val listServicios: LiveData<List<Servicios>> = _listService
@@ -26,6 +26,21 @@ class HomeViewModel(private val dataSource: MainDataSource) : ViewModel() {
             override fun onSuccess(obj: Any?) {
                 _listService.value = obj as List<Servicios>
                 Log.i("TAG", "${_listService.value}")
+            }
+
+            override fun onError(obj: Any?) {
+                _text.value = obj as String
+            }
+
+        })
+    }
+    val gson = Gson()
+    fun getCategorias(){
+        dataSource.getCategorias(object : ObjectOperation {
+            override fun onSuccess(obj: Any?) {
+                Log.i("RESPONSE", "$obj")
+                _responseCategorias.value = obj as List<Categoria>
+
             }
 
             override fun onError(obj: Any?) {

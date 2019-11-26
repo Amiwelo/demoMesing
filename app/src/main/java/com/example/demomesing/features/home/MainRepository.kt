@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONException
 
 class MainRepository : MainDataSource {
     private lateinit var parameter: MutableMap<String, String>
@@ -93,6 +94,27 @@ class MainRepository : MainDataSource {
                 e.printStackTrace()
             }
 
+        }
+    }
+
+    override fun getCategorias(objectOperation: ObjectOperation) {
+        parameter = HashMap()
+        parameter["Opcion"] = "1"
+        callServices = ApiConfig.instanceClient()
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = callServices.getCategorias(parameter)
+            try {
+                withContext(Dispatchers.Main) {
+                    if (response.msj == "OK") {
+                        objectOperation.onSuccess(response.listCategoria)
+                    } else {
+                        objectOperation.onError(response.msjDetail)
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                objectOperation.onError(response.msj)
+            }
         }
     }
 }

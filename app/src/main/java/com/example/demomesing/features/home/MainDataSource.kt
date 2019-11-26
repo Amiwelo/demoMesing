@@ -14,4 +14,5 @@ interface MainDataSource {
         pwd: String?,
         objectOperation: ObjectOperation
     )
+    fun getCategorias(objectOperation: ObjectOperation)
 }

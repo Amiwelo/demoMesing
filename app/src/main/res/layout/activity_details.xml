@@ -6,38 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".features.details.DetailActivity">
 
+
     <ImageView
         android:id="@+id/img_profile"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="276dp"
+        android:layout_height="263dp"
         android:layout_marginTop="28dp"
+        android:background="@drawable/border_image_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></ImageView>
 
+
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="50dp"
         android:layout_marginRight="10dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintBottom_toTopOf="@+id/btn_solicitar_servicio"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.842"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_profile">
+        app:layout_constraintTop_toBottomOf="@+id/img_profile"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/et_nombre_usu"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
-            android:hint="NOMBRE" />
+            android:background="@drawable/home_background_oval"
+            android:hint="NOMBRE"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp" />
 
         <TextView
             android:id="@+id/et_celular"
@@ -46,7 +55,11 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
-            android:hint="CELULAR" />
+            android:background="@drawable/home_background_oval"
+            android:hint="CELULAR"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp" />
 
         <TextView
             android:id="@+id/et_ubicacion"
@@ -55,7 +68,11 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
-            android:hint="UBICACION" />
+            android:background="@drawable/home_background_oval"
+            android:hint="UBICACION"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp" />
 
         <TextView
             android:id="@+id/et_profesion"
@@ -64,7 +81,11 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
-            android:hint="PROFESION" />
+            android:background="@drawable/home_background_oval"
+            android:hint="PROFESION"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp" />
 
         <TextView
             android:id="@+id/et_descripcion_serv"
@@ -73,20 +94,27 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
-            android:hint="DESCRIPCION" />
+            android:background="@drawable/home_background_oval"
+            android:hint="DESCRIPCION"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:singleLine="false" />
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/btn_solicitar_servicio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="56dp"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="6dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView

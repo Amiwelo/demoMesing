@@ -23,6 +23,7 @@ import com.example.demomesing.di.Injection
 import com.example.demomesing.model.Collection
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_menu.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
 class HomeActivity : AppCompatActivity() {
