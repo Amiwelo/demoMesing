@@ -21,6 +21,7 @@ class ServiceAdapter(private val listener: Listener) :RecyclerView.Adapter<Servi
             tv_service_item.text = data.seu_usu
             //tv_enterprise_item.text = data.des_tip_serv
             Picasso.get().load(data.ima_usu).placeholder(R.color.blue_bg_light).into(img_photo_item)
+            item_ofertante.setOnClickListener { listener.onClick(data, adapterPosition) }
         }
     }
 

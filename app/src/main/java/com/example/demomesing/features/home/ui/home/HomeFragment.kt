@@ -1,5 +1,6 @@
 package com.example.demomesing.features.home.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.demomesing.R
 import com.example.demomesing.di.Injection
+import com.example.demomesing.features.details.DetailActivity
 import com.example.demomesing.model.Servicios
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -67,7 +69,9 @@ class HomeFragment : Fragment() {
     private fun initApp() {
         adapter = ServiceAdapter(object : Listener {
             override fun onClick(data: Servicios, position: Int) {
-                Toast.makeText(context, "HI", Toast.LENGTH_SHORT).show()
+                val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra("dataOfertante", data)
+                startActivity(intent)
             }
         })
     }

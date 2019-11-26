@@ -2,8 +2,6 @@ package com.example.demomesing.data
 
 import com.example.demomesing.model.*
 import com.example.demomesing.model.Collection
-import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -28,4 +26,8 @@ interface CallServices {
     @POST("pregunta/lstPregunta")
     @FormUrlEncoded
     suspend fun getListQuestion(@FieldMap param: Map<String, String>): ResponseUsuario
+
+    @POST("pregunta/lstPregunta")
+    @FormUrlEncoded
+    fun createSolicitude(@FieldMap parameter: Map<String, String>): ResponsePregunta
 }
