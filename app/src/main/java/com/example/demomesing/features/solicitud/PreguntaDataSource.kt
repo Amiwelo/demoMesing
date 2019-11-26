@@ -12,4 +12,9 @@ interface PreguntaDataSource {
         id: Int,
         objectOperation: ObjectOperation
     )
+    fun getPreguntas2(objectOperation: ObjectOperation)
+
+    fun getPreguntas3(objectOperation: ObjectOperation)
+
+    fun getPreguntas4(objectOperation: ObjectOperation)
 }

@@ -3,7 +3,7 @@ package com.example.demomesing.model
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class Pregunta(
+data class Pregunta3(
     @SerializedName("ID_PREG")
     val idPreg: Int,
     @SerializedName("DES_PREG")

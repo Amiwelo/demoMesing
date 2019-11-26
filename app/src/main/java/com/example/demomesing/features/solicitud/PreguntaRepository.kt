@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class PreguntaRepository: PreguntaDataSource {
+class PreguntaRepository : PreguntaDataSource {
 
     private lateinit var parameter: MutableMap<String, String>
     private lateinit var callServices: CallServices
@@ -23,7 +23,7 @@ class PreguntaRepository: PreguntaDataSource {
         objectOperation: ObjectOperation
     ) {
         parameter = HashMap()
-        parameter["Opcion"] = ""
+        parameter["Opcion"] = "2"
         parameter["IdTipServ"] = ""
         parameter["IdEstSol"] = ""
         parameter["PregUno"] = ""
@@ -35,12 +35,73 @@ class PreguntaRepository: PreguntaDataSource {
 
         callServices = ApiConfig.instanceClient()
         CoroutineScope(Dispatchers.Main).launch {
+
+        }
+    }
+
+    override fun getPreguntas2(objectOperation: ObjectOperation) {
+        parameter = HashMap()
+        parameter["Opcion"] = "2"
+
+        callServices = ApiConfig.instanceClient()
+        CoroutineScope(Dispatchers.Main).launch {
             try {
-                val response = callServices.createSolicitude(parameter)
-                withContext(Dispatchers.Main){
+                val response = callServices.getListQuestion2(parameter)
+                withContext(Dispatchers.Main) {
+                    if (response.cMsj == "OK") {
+                        objectOperation.onSuccess(response.listPreguntas)
+                    } else {
+                        objectOperation.onError(response.cMsjDetail)
+                    }
                 }
-            } catch (e: Exception){
-                objectOperation.onError(e.printStackTrace())
+            } catch (e: Exception) {
+                e.printStackTrace()
+                objectOperation.onError("ERROR")
+            }
+        }
+    }
+
+    override fun getPreguntas3(objectOperation: ObjectOperation) {
+        parameter = HashMap()
+        parameter["Opcion"] = "3"
+
+        callServices = ApiConfig.instanceClient()
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val response = callServices.getListQuestion3(parameter)
+                withContext(Dispatchers.Main) {
+                    if (response.cMsj == "OK") {
+                        objectOperation.onSuccess(response.listPreguntas)
+                    } else {
+                        objectOperation.onError(response.cMsjDetail)
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                objectOperation.onError("ERROR")
+            }
+        }
+    }
+
+    override fun getPreguntas4(objectOperation: ObjectOperation) {
+        parameter = HashMap()
+        parameter["Opcion"] = "4"
+
+        callServices = ApiConfig.instanceClient()
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val response = callServices.getListQuestion4(parameter)
+                withContext(Dispatchers.Main) {
+                    if (response.cMsj == "OK") {
+                        objectOperation.onSuccess(response.listPreguntas)
+                    } else {
+                        objectOperation.onError(response.cMsjDetail)
+                    }
+
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                objectOperation.onError("ERROR")
             }
         }
     }
