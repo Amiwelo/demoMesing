@@ -12,14 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".features.login.LoginActivity"></activity>
+        <activity android:name=".features.solicitud.PreguntaActivity"></activity>
         <activity android:name=".features.home.ui.add.AddActivity" />
         <activity
             android:name=".features.home.HomeActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".features.details.DetailActivity" />
-        <activity android:name=".features.solicitud.PreguntaActivity">
+        <activity android:name=".features.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

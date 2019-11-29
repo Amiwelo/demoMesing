@@ -39,14 +39,14 @@ class PreguntaRepository : PreguntaDataSource {
         }
     }
 
-    override fun getPreguntas2(objectOperation: ObjectOperation) {
+    override fun getPreguntas(objectOperation: ObjectOperation) {
         parameter = HashMap()
-        parameter["Opcion"] = "2"
+        parameter["Opcion"] = "1"
 
         callServices = ApiConfig.instanceClient()
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                val response = callServices.getListQuestion2(parameter)
+                val response = callServices.getListQuestion(parameter)
                 withContext(Dispatchers.Main) {
                     if (response.cMsj == "OK") {
                         objectOperation.onSuccess(response.listPreguntas)
@@ -61,48 +61,4 @@ class PreguntaRepository : PreguntaDataSource {
         }
     }
 
-    override fun getPreguntas3(objectOperation: ObjectOperation) {
-        parameter = HashMap()
-        parameter["Opcion"] = "3"
-
-        callServices = ApiConfig.instanceClient()
-        CoroutineScope(Dispatchers.Main).launch {
-            try {
-                val response = callServices.getListQuestion3(parameter)
-                withContext(Dispatchers.Main) {
-                    if (response.cMsj == "OK") {
-                        objectOperation.onSuccess(response.listPreguntas)
-                    } else {
-                        objectOperation.onError(response.cMsjDetail)
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                objectOperation.onError("ERROR")
-            }
-        }
-    }
-
-    override fun getPreguntas4(objectOperation: ObjectOperation) {
-        parameter = HashMap()
-        parameter["Opcion"] = "4"
-
-        callServices = ApiConfig.instanceClient()
-        CoroutineScope(Dispatchers.Main).launch {
-            try {
-                val response = callServices.getListQuestion4(parameter)
-                withContext(Dispatchers.Main) {
-                    if (response.cMsj == "OK") {
-                        objectOperation.onSuccess(response.listPreguntas)
-                    } else {
-                        objectOperation.onError(response.cMsjDetail)
-                    }
-
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                objectOperation.onError("ERROR")
-            }
-        }
-    }
 }
