@@ -1,6 +1,7 @@
 package com.example.demomesing.features.solicitud
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -10,6 +11,8 @@ import com.example.demomesing.R
 import com.example.demomesing.data.session.ShPreference
 import com.example.demomesing.di.Injection
 import com.example.demomesing.model.Pregunta
+import kotlinx.android.synthetic.main.activity_add.*
+import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.activity_pregunta.*
 
 class PreguntaActivity : AppCompatActivity() {
@@ -19,6 +22,12 @@ class PreguntaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pregunta)
         initApp()
+
+        btn_registrar_pregunta.setOnClickListener {
+            val idOfer = 0
+            val data = intent.getIntExtra("idOfer", idOfer)
+            viewModel.createSolicitude(1,1,1, et_numero_contacto.text.toString().toInt(), et_correo.text.toString(), idOfer)
+        }
     }
     private fun initApp(){
         viewModel = ViewModelProviders.of(

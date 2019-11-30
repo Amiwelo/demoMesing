@@ -40,5 +40,5 @@ interface CallServices {
 
     @POST("solicitud/mntSolicitud")
     @FormUrlEncoded
-    suspend fun createSolicitude(@FieldMap param: Map<String, String>)
+    suspend fun createSolicitude(@FieldMap param: Map<String, String>): ResponsePregunta
 }

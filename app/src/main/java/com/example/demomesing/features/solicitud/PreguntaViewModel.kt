@@ -15,14 +15,8 @@ class PreguntaViewModel(private val dataSource: PreguntaDataSource, private val 
     private val _responsePreguntas2 = MutableLiveData<List<Pregunta>>()
     val responsePreguntas: LiveData<List<Pregunta>> = _responsePreguntas2
 
-    private val _responsePreguntas3 = MutableLiveData<List<Pregunta>>()
-    val responsePreguntas3: LiveData<List<Pregunta>> = _responsePreguntas3
-
-    private val _responsePreguntas4 = MutableLiveData<List<Pregunta>>()
-    val responsePreguntas4: LiveData<List<Pregunta>> = _responsePreguntas4
-
-    fun createSolicitude(p1: Int, p2: Int, p3: Int, cel: Int, email: String, id: Int){
-        dataSource.createSolicitude(p1, p2, p3, cel, email, id, object : ObjectOperation {
+    fun createSolicitude(p1: Int, p2: Int, p3: Int, cel: Int, email: String, idOfer: Int){
+        dataSource.createSolicitude(p1, p2, p3, cel, email, shPreference.user!!.id, idOfer,object : ObjectOperation {
             override fun onSuccess(obj: Any?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }

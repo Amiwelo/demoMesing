@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_details.*
 
 class DetailActivity : AppCompatActivity() {
+    lateinit var data: Servicios
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,12 +19,13 @@ class DetailActivity : AppCompatActivity() {
 
         btn_solicitar_servicio.setOnClickListener {
             val intent = Intent(this@DetailActivity, PreguntaActivity::class.java)
+            intent.putExtra("idOfer", data.id_usu)
             startActivity(intent)
         }
     }
 
     private fun getData(){
-        val data = intent.getSerializableExtra("dataOfertante") as Servicios
+        data = intent.getSerializableExtra("dataOfertante") as Servicios
         et_celular.text = data.cel_usu
         et_descripcion_serv.text = data.des_tip_serv
         et_nombre_usu.text = data.pri_nom_usu+" "+data.ape_pat_usu+" "+data.ape_mat_usu

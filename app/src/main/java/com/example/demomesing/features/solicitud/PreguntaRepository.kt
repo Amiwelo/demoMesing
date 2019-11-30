@@ -1,5 +1,6 @@
 package com.example.demomesing.features.solicitud
 
+import android.util.Log
 import com.example.demomesing.data.ApiConfig
 import com.example.demomesing.data.CallServices
 import com.example.demomesing.data.ObjectOperation
@@ -20,22 +21,34 @@ class PreguntaRepository : PreguntaDataSource {
         cel: Int,
         email: String,
         id: Int,
+        idOfer: Int,
         objectOperation: ObjectOperation
     ) {
         parameter = HashMap()
         parameter["Opcion"] = "2"
-        parameter["IdTipServ"] = ""
-        parameter["IdEstSol"] = ""
-        parameter["PregUno"] = ""
-        parameter["PregDos"] = ""
-        parameter["PregTres"] = ""
-        parameter["NumeContac"] = ""
-        parameter["CorrContac"] = ""
-        parameter["IdUsu"] = ""
+        parameter["IdTipServ"] = "2"
+        parameter["IdEstSol"] = "1"
+        parameter["PregUno"] = p1.toString()
+        parameter["PregDos"] = p2.toString()
+        parameter["PregTres"] = p3.toString()
+        parameter["NumeContac"] = cel.toString()
+        parameter["CorrContac"] = email
+        parameter["IdUsu"] = id.toString()
+        parameter["IdUsuEsp"] = idOfer.toString()
 
         callServices = ApiConfig.instanceClient()
         CoroutineScope(Dispatchers.Main).launch {
-
+            try {
+                val response = callServices.createSolicitude(parameter)
+                withContext(Dispatchers.Main) {
+                    //objectOperation.onSuccess(response)
+                    Log.i("RESPONSESOLICITUDE", "${response.cMsj}")
+                    Log.i("RESPONSESOLICITUDE", "${response.cMsjDetail}")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                objectOperation.onError("ERROR")
+            }
         }
     }
 

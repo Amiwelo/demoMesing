@@ -10,6 +10,7 @@ interface PreguntaDataSource {
         cel: Int,
         email: String,
         id: Int,
+        idOfer: Int,
         objectOperation: ObjectOperation
     )
     fun getPreguntas(objectOperation: ObjectOperation)
