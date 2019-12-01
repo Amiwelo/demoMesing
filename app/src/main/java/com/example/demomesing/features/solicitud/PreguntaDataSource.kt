@@ -7,7 +7,7 @@ interface PreguntaDataSource {
         p1: Int,
         p2: Int,
         p3: Int,
-        cel: Int,
+        cel: String,
         email: String,
         id: Int,
         idOfer: Int,

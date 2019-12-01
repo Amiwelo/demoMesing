@@ -31,13 +31,6 @@ interface CallServices {
     @FormUrlEncoded
     suspend fun getListQuestion(@FieldMap param: Map<String, String>): ResponsePregunta
 
-    @POST("pregunta/lstPregunta")
-    @FormUrlEncoded
-    suspend fun getListQuestion3(@FieldMap param: Map<String, String>): ResponsePregunta
-    @POST("pregunta/lstPregunta")
-    @FormUrlEncoded
-    suspend fun getListQuestion4(@FieldMap param: Map<String, String>): ResponsePregunta
-
     @POST("solicitud/mntSolicitud")
     @FormUrlEncoded
     suspend fun createSolicitude(@FieldMap param: Map<String, String>): ResponsePregunta

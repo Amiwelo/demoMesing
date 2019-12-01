@@ -18,6 +18,7 @@ import com.example.demomesing.data.session.ShPreference
 import com.example.demomesing.di.Injection
 import com.example.demomesing.features.home.HomeActivity
 import com.example.demomesing.features.home.ui.add.AddActivity
+import com.example.demomesing.model.ResponseData
 import com.example.demomesing.model.User
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -54,7 +55,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun initApp() {
-        progressBar = progressBarLogin
+        progressBar = progress_bar
         viewModel = ViewModelProviders.of(
             this,
             LoginViewModelFactory(
@@ -69,11 +70,14 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         ).get(LoginViewModel::class.java)
         viewModel.responseBody.observe(this, response)
         viewModel.message.observe(this, message)
+        //viewModel.error.observe(this, error)
     }
-
-    private val message = Observer<String> {
-        loader()
+    private val error = Observer<String> {
         toast(it)
+    }
+    private val message = Observer<ResponseData> {
+        loader()
+        toast(it.status+" "+it.message)
     }
 
     private val response = Observer<User> {
@@ -118,26 +122,19 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         }
         Log.i("Info", "SignInService")
         viewModel.signInService(et_user.text.toString(), et_password.text.toString())
-        enableFields(false)
     }
 
-    private fun enableFields(boolean: Boolean) {
-        et_user.isEnabled = boolean
-        et_password.isEnabled = boolean
-        et_password.isClickable = boolean
-        et_user.isClickable = boolean
-    }
+
 
     private fun loader() {
         Handler().postDelayed({ hideProgressBarr() }, 500)
-        enableFields(true)
     }
 
     private fun transition(context: Context) {
         val pd = Dialog(context)
         pd.requestWindowFeature(Window.FEATURE_NO_TITLE)
         pd.setContentView(R.layout.activity_login)
-        pd.progressBarLogin.visibility = View.VISIBLE
+        pd.progress_bar.visibility = View.VISIBLE
         pd.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         pd.setCancelable(true)
         pd.setCanceledOnTouchOutside(true)

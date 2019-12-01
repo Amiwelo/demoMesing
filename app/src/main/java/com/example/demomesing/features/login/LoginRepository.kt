@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.demomesing.data.ApiConfig
 import com.example.demomesing.data.CallServices
 import com.example.demomesing.data.ObjectOperation
+import com.example.demomesing.model.ResponseData
 import com.example.demomesing.model.User
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -35,16 +36,13 @@ class LoginRepository : LoginDataSource {
                 withContext(Dispatchers.Main){
                         if(response.codeStatus == 200){
                             var obj = gson.fromJson(response.objJson[0], User::class.java)
-                            Log.i("Response", "$obj")
                             param.onSuccess(obj)
                         } else {
-                            var msj = response.message
-                            Log.i("Response", "$msj")
-                            param.onError(msj)
+                            param.onError(response)
                         }
                 }
             } catch (e: Exception){
-                param.onError(e.printStackTrace())
+                e.printStackTrace()
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.example.demomesing.features.home.ui.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,36 +14,42 @@ class HomeViewModel(private val dataSource: MainDataSource) : ViewModel() {
     private val _text = MutableLiveData<String>()
     val text: LiveData<String> = _text
 
-    private val _responseCategorias = MutableLiveData<List<Categoria>>()
-    val responseCategorias: LiveData<List<Categoria>> = _responseCategorias
+    private val _responseCat = MutableLiveData<List<Categoria>>()
+    val responseCat: LiveData<List<Categoria>> = _responseCat
 
     private var _listService = MutableLiveData<List<Servicios>>()
-    val listServicios: LiveData<List<Servicios>> = _listService
+    val listService: LiveData<List<Servicios>> = _listService
 
-    fun getServices(idServ: Int) {
-        dataSource.getServices(idServ, object : ObjectOperation {
+    private val _realice = MutableLiveData<Boolean>()
+    val realice: LiveData<Boolean> = _realice
+
+    fun getServices(idSer: Int) {
+        dataSource.getServices(idSer, object : ObjectOperation {
             override fun onSuccess(obj: Any?) {
                 _listService.value = obj as List<Servicios>
-                Log.i("TAG", "${_listService.value}")
+                _realice.value = true
             }
 
             override fun onError(obj: Any?) {
                 _text.value = obj as String
+                _realice.value = false
             }
 
         })
     }
+
     val gson = Gson()
-    fun getCategorias(){
+    fun getCat() {
         dataSource.getCategorias(object : ObjectOperation {
             override fun onSuccess(obj: Any?) {
-                Log.i("RESPONSE", "$obj")
-                _responseCategorias.value = obj as List<Categoria>
+                _responseCat.value = obj as List<Categoria>
+                _realice.value = true
 
             }
 
             override fun onError(obj: Any?) {
                 _text.value = obj as String
+                _realice.value = false
             }
 
         })

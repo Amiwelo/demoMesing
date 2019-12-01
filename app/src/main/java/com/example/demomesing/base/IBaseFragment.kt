@@ -1,6 +1,6 @@
 package com.example.demomesing.base
 
-interface Base {
+interface IBaseFragment {
     interface View {
         fun toast(msj: String)
         fun showError(msjError: String)

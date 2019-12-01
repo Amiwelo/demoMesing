@@ -131,7 +131,8 @@
                 android:text="Registrarse"
                 android:textAlignment="center" />
         </androidx.cardview.widget.CardView>
-
+        <!-- -->
+        <!--
         <ProgressBar
             android:id="@+id/progressBarLogin"
             style="?android:attr/progressBarStyle"
@@ -145,7 +146,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />-->
+        <include
+            android:id="@+id/progress_bar"
+            android:visibility="gone"
+            layout="@layout/dialog_progressbar"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

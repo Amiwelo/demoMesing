@@ -18,22 +18,22 @@ class PreguntaRepository : PreguntaDataSource {
         p1: Int,
         p2: Int,
         p3: Int,
-        cel: Int,
+        cel: String,
         email: String,
         id: Int,
         idOfer: Int,
         objectOperation: ObjectOperation
     ) {
         parameter = HashMap()
-        parameter["Opcion"] = "2"
+        parameter["Opcion"] = "1"
         parameter["IdTipServ"] = "2"
         parameter["IdEstSol"] = "1"
         parameter["PregUno"] = p1.toString()
         parameter["PregDos"] = p2.toString()
         parameter["PregTres"] = p3.toString()
-        parameter["NumeContac"] = cel.toString()
+        parameter["NumeContac"] = cel
         parameter["CorrContac"] = email
-        parameter["IdUsu"] = id.toString()
+        parameter["IdUsuSol"] = id.toString()
         parameter["IdUsuEsp"] = idOfer.toString()
 
         callServices = ApiConfig.instanceClient()
@@ -41,13 +41,17 @@ class PreguntaRepository : PreguntaDataSource {
             try {
                 val response = callServices.createSolicitude(parameter)
                 withContext(Dispatchers.Main) {
-                    //objectOperation.onSuccess(response)
                     Log.i("RESPONSESOLICITUDE", "${response.cMsj}")
                     Log.i("RESPONSESOLICITUDE", "${response.cMsjDetail}")
+                    if (response.cMsj == "OK") {
+                        objectOperation.onSuccess(response)
+                    } else {
+                        objectOperation.onError(response)
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                objectOperation.onError("ERROR")
+                objectOperation.onError("ERROR AL CREAR SOLICITUD")
             }
         }
     }
@@ -64,7 +68,7 @@ class PreguntaRepository : PreguntaDataSource {
                     if (response.cMsj == "OK") {
                         objectOperation.onSuccess(response.listPreguntas)
                     } else {
-                        objectOperation.onError(response.cMsjDetail)
+                        objectOperation.onError(response)
                     }
                 }
             } catch (e: Exception) {

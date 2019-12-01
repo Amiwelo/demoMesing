@@ -9,8 +9,8 @@ data class ResponseData (
 var status: String,
 @SerializedName("CodeStatus")
 var codeStatus: Int,
-@SerializedName("DtCollection")
-var objJson: List<JsonObject>,
 @SerializedName("Message")
-var message: String
+var message: String,
+@SerializedName("DtCollection")
+var objJson: List<JsonObject>
 )
