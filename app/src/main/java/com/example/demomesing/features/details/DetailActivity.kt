@@ -21,6 +21,7 @@ class DetailActivity : AppCompatActivity() {
             val intent = Intent(this@DetailActivity, PreguntaActivity::class.java)
             intent.putExtra("idOfer", data.id_usu)
             startActivity(intent)
+            this.finish()
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.demomesing.features.solicitud
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -11,6 +12,7 @@ import com.example.demomesing.R
 import com.example.demomesing.data.session.ShPreference
 import com.example.demomesing.data.session.ShPreference.Companion.PREFERENCE_NAME
 import com.example.demomesing.di.Injection
+import com.example.demomesing.features.home.HomeActivity
 import com.example.demomesing.model.Pregunta
 import com.example.demomesing.model.ResponsePregunta
 import kotlinx.android.synthetic.main.activity_pregunta.*
@@ -51,7 +53,11 @@ class PreguntaActivity : AppCompatActivity() {
 
     private val responseBody = Observer<ResponsePregunta> {
         Toast.makeText(this, it.cMsj + " " + it.cMsjDetail, Toast.LENGTH_LONG).show()
-        if (it.cMsj == "OK") finish()
+        if (it.cMsj == "OK") {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            this.finish()
+        }
         else {
             cleanFields()
         }

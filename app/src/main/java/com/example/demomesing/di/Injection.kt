@@ -18,4 +18,8 @@ object Injection {
     fun getPregunta(): PreguntaDataSource {
         return PreguntaRepository()
     }
+
+    fun getSolicitude(): MainDataSource{
+        return MainRepository()
+    }
 }
