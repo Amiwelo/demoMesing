@@ -117,4 +117,25 @@ class MainRepository : MainDataSource {
             }
         }
     }
+
+    override fun getSolicitudesFromUser(id: Int, objectOperation: ObjectOperation) {
+        parameter = HashMap()
+        parameter["Opcion"] = "4"
+        parameter["IdUsuSol"] = id.toString()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = callServices.getSolicitude(parameter)
+            try {
+                withContext(Dispatchers.Main){
+                    if(response.cMsj == "OK"){
+                        objectOperation.onSuccess(response.listObjects)
+                    } else {
+                        objectOperation.onError(response.cMsjDetail)
+                    }
+                }
+            } catch (e: java.lang.Exception){
+                e.printStackTrace()
+            }
+        }
+    }
 }

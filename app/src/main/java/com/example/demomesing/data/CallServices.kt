@@ -5,6 +5,7 @@ import com.example.demomesing.model.Collection
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
+import java.util.HashMap
 
 interface CallServices {
     @POST("authenticate/token")
@@ -34,4 +35,8 @@ interface CallServices {
     @POST("solicitud/mntSolicitud")
     @FormUrlEncoded
     suspend fun createSolicitude(@FieldMap param: Map<String, String>): ResponsePregunta
+
+    @POST("solicitud/mntSolicitud")
+    @FormUrlEncoded
+    suspend fun getSolicitude(parameter: Map<String, String>): ResponseSolicitude
 }

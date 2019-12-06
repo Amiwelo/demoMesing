@@ -15,4 +15,5 @@ interface MainDataSource {
         objectOperation: ObjectOperation
     )
     fun getCategorias(objectOperation: ObjectOperation)
+    fun getSolicitudesFromUser(id: Int, objectOperation: ObjectOperation)
 }
